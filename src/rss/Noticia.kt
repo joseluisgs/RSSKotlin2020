@@ -13,13 +13,10 @@ import java.io.Serializable
  * @constructor
  */
 data class Noticia(
-    var titulo: String?, var link: String?, var descripcion: String?,
-    var contenido: String?, var fecha: String?, var imagen: String?
+    var titulo: String = "", var link: String = "", var descripcion: String = "",
+    var contenido: String = "", var fecha: String = "", var imagen: String = ""
 ) : Serializable {
-    /**
-     * Constructor sin parámetros
-     * @constructor
-     */
+
 
 //    override fun toString(): String {
 //        return ("Noticia{" + "titulo=" + titulo + ", link=" + link + ", descripcion=" + descripcion

@@ -2,6 +2,6 @@ import rss.Noticia
 
 fun main(){
     println("Hola Mundo")
-    val noticia = Noticia("","","","","","")
+    val noticia = Noticia()
     println(noticia.toString())
 }
