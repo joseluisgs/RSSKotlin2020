@@ -1,15 +1,21 @@
 package rss
 
 import org.w3c.dom.DOMException
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
+import org.w3c.dom.Element
+import org.xml.sax.SAXException
 import java.io.IOException
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
-import org.xml.sax.SAXException;
 
+/**
+ * Controlador de noticias. Singleton
+ */
 object RSSController {
-
+    /**
+     * Devuleve la lista de noticias de un RSS
+     * @param uri String Dirección del RSS
+     * @return MutableList<Noticia> Lista de noticias
+     */
     fun getNoticias(uri: String): MutableList<Noticia> {
         // Parser
         val factory = DocumentBuilderFactory.newInstance()
@@ -31,36 +37,38 @@ object RSSController {
                 while (n != null) {
                     if (n.nodeName == "title") {
                         noticia.titulo = n.textContent
-                        //System.out.println("Título: " + titulo);
+                       // println("Título: $noticia.titulo");
                     }
                     if (n.nodeName == "link") {
                         noticia.link = n.textContent
-                        //System.out.println("Enlace: " + enlace);
+                        // println("Enlace: $noticia.enlace");
                     }
                     if (n.nodeName == "description") {
                         noticia.descripcion = n.textContent
-                        //System.out.println("Descripción: " + descripcion);
+                        // println("Descripción: $noticia.descripcion");
                     }
                     if (n.nodeName == "pubDate") {
                         noticia.fecha = n.textContent
-                        //System.out.println("Fecha: " + fecha);
+                        // println("Fecha: $noticia.fecha");
                     }
                     if (n.nodeName == "content:encoded") {
                         noticia.contenido = n.textContent
-                        //System.out.println("Contenido: " + contenido);
+                        // println("Contenido: $noticia.contenido");
                     }
-//                    if (n.nodeName == "enclosure") {
-//                        val imagen: Node? =
-//                        //Controlamos que solo rescate una imagen
-//                        if (contadorImagenes == 0) {
-//                            noticia.imagen = imagen
-//                        }
-//                        contadorImagenes++
-//                    }
+                    if (n.nodeName == "enclosure") {
+                        val e: Element = n as Element
+                        val imagen: String = e.getAttribute("url")
+                        //Controlamos que solo rescate una imagen
+                        if (contadorImagenes == 0) {
+                            noticia.imagen = imagen
+                        }
+                        contadorImagenes++
+                    }
                     n = n.nextSibling
                 }
                 noticias.add(noticia)
             }
+            return noticias
         } catch (e: ParserConfigurationException) {
             println("Error: " + e.message)
         } catch (e: IOException) {
