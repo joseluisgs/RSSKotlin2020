@@ -1,4 +1,4 @@
-# rss Kotlin
+# RSS Kotlin
 
 2DAM Sencillo lector de rss siguiendo Gitflow
 
